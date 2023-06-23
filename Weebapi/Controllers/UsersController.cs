@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Weebapi.Data;
@@ -10,9 +11,8 @@ using Weebapi.Entities;
 
 namespace Weebapi.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")] // ..../api/users
-    public class UsersController : ControllerBase
+    [Authorize]
+    public class UsersController : BaseApiController
     {
         private readonly DataContext _context;
         public UsersController(DataContext context)
@@ -20,6 +20,7 @@ namespace Weebapi.Controllers
             _context = context;
             
         }
+        [AllowAnonymous]
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
